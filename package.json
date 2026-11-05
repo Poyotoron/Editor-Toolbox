@@ -1,7 +1,7 @@
 {
-  "name": "net.maaaaa.marshmallow-jar",
-  "displayName": "Marshmallow Jar",
-  "version": "0.2.1",
+  "name": "net.maaaaa.editor-toolbox",
+  "displayName": "Poyo's Editor Toolbox",
+  "version": "0.3.0",
   "description": "Unity エディタの使い勝手を整える小さな機能をまとめたパッケージです。機能ごとに ON / OFF できます。",
   "unity": "2022.3",
   "license": "MIT",
@@ -9,7 +9,10 @@
     "name": "Poyotoron",
     "url": "https://github.com/Poyotoron"
   },
-  "url": "https://github.com/Poyotoron/Marshmallow-Jar/releases/download/0.2.1/net.maaaaa.marshmallow-jar-0.2.1.zip",
-  "documentationUrl": "https://ghp.maaaaa.net/Marshmallow-Jar/",
-  "changelogUrl": "https://github.com/Poyotoron/Marshmallow-Jar/blob/main/CHANGELOG.md"
+  "url": "https://github.com/Poyotoron/Editor-Toolbox/releases/download/0.3.0/net.maaaaa.editor-toolbox-0.3.0.zip",
+  "documentationUrl": "https://ghp.maaaaa.net/Editor-Toolbox/",
+  "changelogUrl": "https://github.com/Poyotoron/Editor-Toolbox/blob/main/CHANGELOG.md",
+  "legacyPackages": [
+    "net.maaaaa.marshmallow-jar"
+  ]
 }

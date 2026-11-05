@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     /// <summary>対象キーとラベル ID の対応。</summary>
     [Serializable]
@@ -44,7 +44,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
         {
             get
             {
-                IrodoriSettingsMigration.ImportStandaloneSettings();
+                IrodoriSettingsMigration.ImportPreviousSettings();
                 return instance;
             }
         }
@@ -238,7 +238,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
         {
             if (!ColorUtility.TryParseHtmlString(colorHex, out Color color))
             {
-                Debug.LogWarning("Irodori Colorizer: カスタムラベルの色を解析できませんでした。");
+                Debug.LogWarning("Irodori Colorizer: カスタムラベルの色を読み取れませんでした。");
                 return null;
             }
 

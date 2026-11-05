@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     /// <summary>有効なラベルを見出し付きで選ぶポップアップ。</summary>
     internal sealed class IrodoriLabelPopup : EditorWindow
@@ -253,7 +253,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
 
             if (!ColorUtility.TryParseHtmlString(input, out Color color))
             {
-                Debug.LogWarning("Irodori Colorizer: Hex カラーコードを解析できませんでした。");
+                Debug.LogWarning("Irodori Colorizer: 16進数のカラーコードを読み取れませんでした。");
                 return;
             }
 

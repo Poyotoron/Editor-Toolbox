@@ -1,9 +1,9 @@
-#if MARSHMALLOW_JAR_HAS_CAU
+#if EDITOR_TOOLBOX_HAS_CAU
 using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     // NOTE: Continuous Avatar Uploader が使う SaveAssetIfDirty は保存前のコールバックを呼ばないが、保存中に再インポートするため、ここで保存したばかりの値を読める。
     internal sealed class BatchUploadImportHook : AssetPostprocessor
@@ -11,7 +11,7 @@ namespace Poyo.MarshmallowJar.Editor
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
             string[] movedAssets, string[] movedFromAssetPaths)
         {
-            if (!SessionState.GetBool(MarshmallowJarNotifier.BatchRunningSessionKey, false))
+            if (!SessionState.GetBool(EditorToolboxNotifier.BatchRunningSessionKey, false))
             {
                 return;
             }

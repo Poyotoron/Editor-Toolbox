@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal sealed class WebhookJsonNode
     {

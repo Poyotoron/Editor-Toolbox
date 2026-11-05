@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class AssetCopier
     {
@@ -46,7 +46,7 @@ namespace Poyo.MarshmallowJar.Editor
             // NOTE: 上書きでアセットへの参照との対応が崩れうるため、既にある名前には書かない。
             if (AssetDatabase.LoadMainAssetAtPath(destinationPath) != null || File.Exists(destinationPath))
             {
-                message = "「" + destinationPath + "」は既にあるため、コピーしませんでした。上書きはしません。別の名前を選んでください。";
+                message = "「" + destinationPath + "」はすでにあるため、コピーしませんでした。上書きはしません。別の名前を選んでください。";
                 return false;
             }
             if (!AssetDatabase.CopyAsset(sourcePath, destinationPath))
@@ -70,12 +70,12 @@ namespace Poyo.MarshmallowJar.Editor
                 "コピーの保存先と名前を選んでください。", folder);
             if (TryCopy(sourcePath, destinationPath, out string message))
             {
-                Debug.Log(MarshmallowJarInfo.LogPrefix + message);
+                Debug.Log(EditorToolboxInfo.LogPrefix + message);
                 EditorGUIUtility.PingObject(AssetDatabase.LoadMainAssetAtPath(destinationPath));
             }
             else if (message != null)
             {
-                Debug.LogWarning(MarshmallowJarInfo.LogPrefix + message);
+                Debug.LogWarning(EditorToolboxInfo.LogPrefix + message);
                 EditorUtility.DisplayDialog("コピーを保存", message, "OK");
             }
         }

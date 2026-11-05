@@ -1,56 +1,50 @@
-# Marshmallow Jar
+# Poyo's Editor Toolbox
 
-VRChat のアバター改変で、Unity エディタそのものを少し使いやすくする小さな機能の詰め合わせです。
-機能ごとにオン・オフできます。
+VRChat のアバター改変で使う Unity エディタを少し使いやすくする機能をまとめたパッケージです。機能ごとにオン・オフできます。
 
-詳しい使い方は[ドキュメントサイト](https://ghp.maaaaa.net/Marshmallow-Jar/)をご覧ください。
+使い方: <https://ghp.maaaaa.net/Editor-Toolbox/>
 
 ## 動作環境
 
 - Unity 2022.3
-- エディタ専用
-- 必須の依存パッケージはありません。次の機能だけ、対応するパッケージが必要です。
-  - 「VRChat SDK への自動入力」: VRChat SDK - Avatars 3.10.0 以降（4.0.0 未満）
-  - 完了通知の「VRChat へのアップロード」: VRChat SDK 3.10.0 以降（4.0.0 未満）
-  - 完了通知の「連続アップロード」: Continuous Avatar Uploader 0.3.8 以降（0.4.0 未満）
+- パッケージ全体として必要なパッケージはありません。次の機能だけ、ほかのパッケージが必要です。
+  - VRChat SDK への自動入力: VRChat SDK - Avatars 3.10.0 以上、4.0.0 未満
+  - 完了通知の「VRChat へのアップロード」: VRChat SDK 3.10.0 以上、4.0.0 未満
+  - 完了通知の「Continuous Avatar Uploader の連続アップロード」: Continuous Avatar Uploader 0.3.8 以上、0.4.0 未満
+  - 距離クリッピングキャンセラーの lilToon: lilToon 2.0.0 以上、3.0.0 未満
+  - 距離クリッピングキャンセラーの Poiyomi で、ロック中のマテリアルを変える: ThryEditor 2.74.3 以上、3.0.0 未満
 
-## 導入
+## インストール
 
-VCC / ALCOM に配布元のリポジトリを追加し、プロジェクトに「Marshmallow Jar」を追加します。
-VCC を使っていない場合は、[リリースページ](https://github.com/Poyotoron/Marshmallow-Jar/releases)から `.unitypackage` をダウンロードしてインポートしてください。
+1. VCC / ALCOM に `https://vpm.maaaaa.net/index.json` を追加します。
+2. プロジェクトの Manage Packages で「Poyo's Editor Toolbox」を追加します。
+
+VCC を使わない場合は、[リリースページ](https://github.com/Poyotoron/Editor-Toolbox/releases)の `.unitypackage` をインポートしてください。
 
 ## 設定
 
-導入した時点では、**すべての機能がオフ**です。他の拡張と動きがぶつからないよう、使う機能だけをオンにしてください。
+入れた直後は、どの機能もオフです。使う機能をオンにしてください。
 
-| メニュー（Project / Hierarchy の右クリック `Marshmallow Jar` にもあります） | 開くページ |
+| メニュー | 内容 |
 |---|---|
-| `Tools > Marshmallow Jar > Preferences…` | 全体設定。全プロジェクト共通のオン・オフと完了通知の設定 |
-| `Tools > Marshmallow Jar > Project Settings…` | このプロジェクトの設定。全体設定の上書きと、プロジェクトごとの値 |
+| `Tools > Poyo's Editor Toolbox > Preferences…` | 全体設定。PC のすべてのプロジェクトで共通のオン・オフと、完了通知の設定 |
+| `Tools > Poyo's Editor Toolbox > Project Settings…` | このプロジェクトだけの設定 |
 
-Project Settings で切り替えた項目は、このプロジェクトだけの上書きになります。上書きした項目は両方のページで色付きで表示されます。
-
-## 収録機能
+## 機能
 
 | 機能 | 内容 |
 |---|---|
-| Hierarchy のチェックボックス | Hierarchy の行の右端で、表示（Active）と EditorOnly タグを切り替えられます。位置は設定で調整できます。 |
-| Prefab Variant の名前 | Variant を作ったとき、名前の末尾に「Variant」を付けずに保存します。同じフォルダに同じ名前の Prefab があるときは付けたままにします。 |
-| シーンのライティング | 新しいシーンを、アバターの色味を確かめやすいライティングとカメラで作ります。既存のシーンは、開いたときに確認してから変換します。 |
-| VRChat SDK への自動入力 | 初めてアップロードするアバターの名前とサムネイルが空なら、アバターの名前と Scene ビューの画像を入れます。 |
-| Inspector を別ウィンドウで開く | 選んでいるオブジェクトを固定した Inspector を、別ウィンドウでいくつでも開けます。 |
-| コピーを保存 | アセットの Inspector から、保存先と名前を選んでコピーを作れます。`Packages/` の中のマテリアルを `Assets/` に持ってくるときにも使えます。 |
-| ブレンドシェイプのスライダー | 下限と上限を自由に決めたスライダーで、ブレンドシェイプを動かせるウィンドウです。 |
-| 完了通知 | VRChat へのアップロード、Continuous Avatar Uploader の連続アップロード、もちふぃった～ の衣装変換、Play モード、インポート・コンパイルが終わったら、音と Webhook（Discord など）で知らせます。Discord に送る内容は欄ごとに編集できます。 |
-| Irodori Colorizer | Project / Hierarchy の行に色付きのラベルを付けます。Project ウィンドウを色で絞り込めます。 |
-
-自動で出る確認は、エディタを止めない小さなウィンドウで表示します。同じ操作はメニューからも選べます。
-
-## 単体版の Irodori Colorizer から移行する
-
-単体版が入っている間は、二重に色が付かないよう Marshmallow Jar 側の色付けが止まります。
-VCC / ALCOM で単体版を削除すると、付けた色と設定が自動で引き継がれます。
+| Hierarchy のチェックボックス | Hierarchy の行の右端で、表示（Active）と EditorOnly を切り替える |
+| Prefab Variant の名前 | Variant を作ったとき、名前の末尾に「Variant」を付けない |
+| シーンのライティング | アバターの色を確かめやすいライティングでシーンを作る |
+| VRChat SDK への自動入力 | 初めてアップロードするアバターの名前とサムネイルを入れる |
+| Inspector を別ウィンドウで開く | 選んだオブジェクトに固定した Inspector を、別のウィンドウで開く |
+| コピーを保存 | 保存先と名前を選んで、アセットのコピーを作る |
+| ブレンドシェイプのスライダー | 下限と上限を決めたスライダーで、ブレンドシェイプを動かす |
+| 完了通知 | アップロード、連続アップロード、もちふぃった～ の衣装変換、Play モード、インポートとコンパイルが終わったら、音と Webhook で知らせる |
+| 距離クリッピングキャンセラー | lilToon と Poiyomi の距離クリッピングキャンセラーを、まとめて切り替える |
+| Irodori Colorizer | Project と Hierarchy の行に色のラベルを付ける |
 
 ## ライセンス
 
-[MIT License](LICENSE)
+MIT License（[LICENSE](LICENSE)）

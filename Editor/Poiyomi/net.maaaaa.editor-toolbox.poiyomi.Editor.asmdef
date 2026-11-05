@@ -1,0 +1,33 @@
+{
+    "name": "net.maaaaa.editor-toolbox.poiyomi.Editor",
+    "rootNamespace": "Poyo.EditorToolbox.Poiyomi.Editor",
+    "references": [
+        "net.maaaaa.editor-toolbox.Editor",
+        "ThryAssemblyDefinition"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "EDITOR_TOOLBOX_HAS_THRY",
+        "!EDITOR_TOOLBOX_HAS_LEGACY"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.poiyomi.thryeditor",
+            "expression": "[2.74.3,3.0.0)",
+            "define": "EDITOR_TOOLBOX_HAS_THRY"
+        },
+        {
+            "name": "net.maaaaa.marshmallow-jar",
+            "expression": "0.0.0",
+            "define": "EDITOR_TOOLBOX_HAS_LEGACY"
+        }
+    ],
+    "noEngineReferences": false
+}

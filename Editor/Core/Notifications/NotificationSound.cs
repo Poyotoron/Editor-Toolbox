@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using UnityEditor;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class NotificationSound
     {
@@ -29,7 +29,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void Play(bool success)
         {
-            PlayPath(success, success ? MarshmallowJarNotificationSettings.SuccessSoundPath : MarshmallowJarNotificationSettings.FailureSoundPath);
+            PlayPath(success, success ? EditorToolboxNotificationSettings.SuccessSoundPath : EditorToolboxNotificationSettings.FailureSoundPath);
         }
 
         internal static void PlayPath(bool success, string configuredPath)

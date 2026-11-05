@@ -1,11 +1,11 @@
 using UnityEditor;
 using UnityEngine.SceneManagement;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class SceneSetupMenu
     {
-        private const string Root = "Tools/" + MarshmallowJarInfo.DisplayName + "/Scene Lighting/";
+        private const string Root = "Tools/" + EditorToolboxInfo.DisplayName + "/Scene Lighting/";
 
         [MenuItem(Root + "Convert Active Scene", false, 1100)]
         private static void ConvertActiveScene()
@@ -16,7 +16,7 @@ namespace Poyo.MarshmallowJar.Editor
         [MenuItem(Root + "Convert Active Scene", true)]
         private static bool ValidateConvertActiveScene()
         {
-            return MarshmallowJarToggles.IsOn(MarshmallowJarToggle.SceneSetup) &&
+            return EditorToolboxToggles.IsOn(EditorToolboxToggle.SceneSetup) &&
                 !EditorApplication.isPlayingOrWillChangePlaymode && SceneManager.GetActiveScene().IsValid();
         }
 

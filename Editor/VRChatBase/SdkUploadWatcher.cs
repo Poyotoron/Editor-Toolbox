@@ -1,8 +1,8 @@
-using Poyo.MarshmallowJar.Editor;
+using Poyo.EditorToolbox.Editor;
 using UnityEditor;
 using VRC.SDKBase.Editor;
 
-namespace Poyo.MarshmallowJar.VRChat.Editor
+namespace Poyo.EditorToolbox.VRChat.Editor
 {
     [InitializeOnLoad]
     internal static class SdkUploadWatcher
@@ -10,8 +10,8 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
         private const double PollInterval = 0.5;
         // NOTE: SDK がマルチプラットフォームアップロード中に立てるキー。状態を持つ SDK の型が公開されていないため直接読む。
         private const string MultiPlatformBuildKey = "VRCSdkControlPanel.MultiPlatformBuild";
-        private const string StartKey = "net.maaaaa.marshmallow-jar.Notify.UploadStart";
-        private const string HeldCountKey = "net.maaaaa.marshmallow-jar.Notify.UploadHeldCount";
+        private const string StartKey = "net.maaaaa.editor-toolbox.Notify.UploadStart";
+        private const string HeldCountKey = "net.maaaaa.editor-toolbox.Notify.UploadHeldCount";
         private static double _nextPollTime;
         private static IVRCSdkBuilderApi _builder;
 
@@ -29,7 +29,7 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
             }
             _nextPollTime = now + PollInterval;
             FlushIfDone();
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.CompletionNotifications) || VRCSdkControlPanel.window == null)
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.CompletionNotifications) || VRCSdkControlPanel.window == null)
             {
                 Unsubscribe();
                 return;
@@ -69,14 +69,14 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
 
         private static void OnBuildError(object sender, string message)
         {
-            MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.Upload, false, "ビルド失敗",
+            EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.Upload, false, "ビルド失敗",
                 "VRChat 向けのビルドに失敗しました: " + message);
             Reset();
         }
 
         private static void OnUploadError(object sender, string message)
         {
-            MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.Upload, false, "アップロード失敗",
+            EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.Upload, false, "アップロード失敗",
                 "VRChat へのアップロードに失敗しました: " + message);
             Reset();
         }
@@ -107,14 +107,14 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
         private static void NotifySuccess(int count)
         {
             float start = SessionState.GetFloat(StartKey, -1);
-            string duration = MarshmallowJarNotifier.FormatElapsed(start < 0 ? -1 : EditorApplication.timeSinceStartup - start);
+            string duration = EditorToolboxNotifier.FormatElapsed(start < 0 ? -1 : EditorApplication.timeSinceStartup - start);
             string detail = count >= 2 ? count + " プラットフォーム" : string.Empty;
             if (!string.IsNullOrEmpty(duration))
             {
                 detail += (detail.Length > 0 ? "、" : string.Empty) + duration;
             }
             string message = "VRChat へのアップロードが完了しました" + (detail.Length > 0 ? "（" + detail + "）" : "。");
-            MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.Upload, true, "アップロード完了", message);
+            EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.Upload, true, "アップロード完了", message);
         }
 
         private static void Reset()

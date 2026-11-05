@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal sealed class VariantNameProcessor : AssetPostprocessor
     {
@@ -18,7 +18,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void NotifyCreating(string path)
         {
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.StripVariantSuffix))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.StripVariantSuffix))
             {
                 return;
             }
@@ -76,7 +76,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void TryStripSuffix(string path)
         {
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.StripVariantSuffix))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.StripVariantSuffix))
             {
                 return;
             }
@@ -109,7 +109,7 @@ namespace Poyo.MarshmallowJar.Editor
             string error = AssetDatabase.RenameAsset(path, baseName);
             if (!string.IsNullOrEmpty(error))
             {
-                Debug.LogWarning(MarshmallowJarInfo.LogPrefix + "Prefab Variant の名前を変更できませんでした: " + error);
+                Debug.LogWarning(EditorToolboxInfo.LogPrefix + "Prefab Variant の名前を変更できませんでした: " + error);
             }
         }
     }

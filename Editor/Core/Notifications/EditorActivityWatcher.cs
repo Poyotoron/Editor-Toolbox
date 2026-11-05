@@ -2,16 +2,16 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.Compilation;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     [InitializeOnLoad]
     internal static class EditorActivityWatcher
     {
-        private const string PlayModeStartKey = "net.maaaaa.marshmallow-jar.Notify.PlayModeStart";
-        private const string ImportActiveKey = "net.maaaaa.marshmallow-jar.Notify.ImportActive";
-        private const string ImportStartKey = "net.maaaaa.marshmallow-jar.Notify.ImportStart";
-        private const string ImportPackageKey = "net.maaaaa.marshmallow-jar.Notify.ImportPackage";
-        private const string ImportCompileErrorKey = "net.maaaaa.marshmallow-jar.Notify.ImportCompileError";
+        private const string PlayModeStartKey = "net.maaaaa.editor-toolbox.Notify.PlayModeStart";
+        private const string ImportActiveKey = "net.maaaaa.editor-toolbox.Notify.ImportActive";
+        private const string ImportStartKey = "net.maaaaa.editor-toolbox.Notify.ImportStart";
+        private const string ImportPackageKey = "net.maaaaa.editor-toolbox.Notify.ImportPackage";
+        private const string ImportCompileErrorKey = "net.maaaaa.editor-toolbox.Notify.ImportCompileError";
         private static bool _importActive;
         private static double _idleSince = -1;
 
@@ -34,7 +34,7 @@ namespace Poyo.MarshmallowJar.Editor
             switch (state)
             {
                 case PlayModeStateChange.ExitingEditMode:
-                    if (MarshmallowJarToggles.IsOn(MarshmallowJarToggle.CompletionNotifications))
+                    if (EditorToolboxToggles.IsOn(EditorToolboxToggle.CompletionNotifications))
                     {
                         SessionState.SetFloat(PlayModeStartKey, (float)EditorApplication.timeSinceStartup);
                     }
@@ -43,10 +43,10 @@ namespace Poyo.MarshmallowJar.Editor
                     float start = SessionState.GetFloat(PlayModeStartKey, -1);
                     SessionState.EraseFloat(PlayModeStartKey);
                     double elapsed = EditorApplication.timeSinceStartup - start;
-                    if (start >= 0 && elapsed >= MarshmallowJarNotifier.MinSeconds)
+                    if (start >= 0 && elapsed >= EditorToolboxNotifier.MinSeconds)
                     {
-                        MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.PlayMode, true, "Play モード",
-                            "Play モードに入りました（" + MarshmallowJarNotifier.FormatElapsed(elapsed) + "）");
+                        EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.PlayMode, true, "Play モード",
+                            "Play モードに入りました（" + EditorToolboxNotifier.FormatElapsed(elapsed) + "）");
                     }
                     break;
                 case PlayModeStateChange.EnteredEditMode:
@@ -57,7 +57,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void Begin(string packageName)
         {
-            if (_importActive || !MarshmallowJarToggles.IsOn(MarshmallowJarToggle.CompletionNotifications))
+            if (_importActive || !EditorToolboxToggles.IsOn(EditorToolboxToggle.CompletionNotifications))
             {
                 return;
             }
@@ -96,7 +96,7 @@ namespace Poyo.MarshmallowJar.Editor
             {
                 return;
             }
-            MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.Import, false, "インポート失敗",
+            EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.Import, false, "インポート失敗",
                 "パッケージ「" + Path.GetFileName(name) + "」のインポートに失敗しました: " + error);
             End();
         }
@@ -153,11 +153,11 @@ namespace Poyo.MarshmallowJar.Editor
             string name = SessionState.GetString(ImportPackageKey, string.Empty);
             bool error = SessionState.GetBool(ImportCompileErrorKey, false);
             End();
-            if (elapsed < MarshmallowJarNotifier.MinSeconds)
+            if (elapsed < EditorToolboxNotifier.MinSeconds)
             {
                 return;
             }
-            string duration = MarshmallowJarNotifier.FormatElapsed(elapsed);
+            string duration = EditorToolboxNotifier.FormatElapsed(elapsed);
             string title;
             string message;
             if (error)
@@ -176,7 +176,7 @@ namespace Poyo.MarshmallowJar.Editor
                 title = "コンパイル完了";
                 message = "スクリプトのコンパイルが終わりました（" + duration + "）";
             }
-            MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.Import, !error, title, message);
+            EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.Import, !error, title, message);
         }
 
         private static void End()

@@ -1,0 +1,32 @@
+{
+    "name": "net.maaaaa.editor-toolbox.irodori-colorizer.Editor",
+    "rootNamespace": "Poyo.EditorToolbox.IrodoriColorizer.Editor",
+    "references": [
+        "net.maaaaa.editor-toolbox.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "!EDITOR_TOOLBOX_HAS_STANDALONE_COLORIZER",
+        "!EDITOR_TOOLBOX_HAS_LEGACY"
+    ],
+    "versionDefines": [
+        {
+            "name": "net.maaaaa.irodori-colorizer",
+            "expression": "0.0.0",
+            "define": "EDITOR_TOOLBOX_HAS_STANDALONE_COLORIZER"
+        },
+        {
+            "name": "net.maaaaa.marshmallow-jar",
+            "expression": "0.0.0",
+            "define": "EDITOR_TOOLBOX_HAS_LEGACY"
+        }
+    ],
+    "noEngineReferences": false
+}

@@ -1,0 +1,35 @@
+{
+    "name": "net.maaaaa.editor-toolbox.vrchat.Editor",
+    "rootNamespace": "Poyo.EditorToolbox.VRChat.Editor",
+    "references": [
+        "net.maaaaa.editor-toolbox.Editor",
+        "VRC.SDK3A.Editor",
+        "VRC.SDKBase.Editor",
+        "VRC.SDKBase"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "EDITOR_TOOLBOX_HAS_VRCSDK",
+        "!EDITOR_TOOLBOX_HAS_LEGACY"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.vrchat.avatars",
+            "expression": "[3.10.0,4.0.0)",
+            "define": "EDITOR_TOOLBOX_HAS_VRCSDK"
+        },
+        {
+            "name": "net.maaaaa.marshmallow-jar",
+            "expression": "0.0.0",
+            "define": "EDITOR_TOOLBOX_HAS_LEGACY"
+        }
+    ],
+    "noEngineReferences": false
+}

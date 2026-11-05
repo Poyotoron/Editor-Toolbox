@@ -1,6 +1,6 @@
 using System;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class WebhookSimpleFields
     {

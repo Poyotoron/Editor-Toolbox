@@ -1,11 +1,11 @@
-using Poyo.MarshmallowJar.Editor;
+using Poyo.EditorToolbox.Editor;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     /// <summary>Project と Hierarchy の行描画を共通化する。</summary>
     [InitializeOnLoad]
@@ -104,7 +104,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
         {
             CaptureContextClick(selectionRect);
 
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.IrodoriColorizer))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.IrodoriColorizer))
             {
                 return;
             }

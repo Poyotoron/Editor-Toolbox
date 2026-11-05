@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal sealed class BlendShapeSliderWindow : EditorWindow
     {
-        private const string MenuPath = "Tools/" + MarshmallowJarInfo.DisplayName + "/BlendShape Sliders";
-        private const string ClampWarning = "Player Settings の Clamp BlendShapes が有効なため、0〜100 の外の値は反映されません。";
+        private const string MenuPath = "Tools/" + EditorToolboxInfo.DisplayName + "/BlendShape Sliders";
+        private const string ClampWarning = "Player Settings の Clamp BlendShapes が有効なため、0〜100 の外の値は適用されません。";
         private const string NoTargetMessage = "SkinnedMeshRenderer を持つオブジェクトを選んでください。";
         private const string NoShapesMessage = "このメッシュにはブレンドシェイプがありません。";
         private static readonly GUIContent LockContent = new GUIContent(
-            "固定", "オンにすると、ほかのオブジェクトを選んでも対象が変わりません。");
+            "固定", "ON にすると、ほかのオブジェクトを選んでも対象が変わりません。");
         private static readonly GUIContent NonZeroContent = new GUIContent(
             "0 以外", "値が 0 でないブレンドシェイプだけを表示します。");
         private static readonly GUIContent MinContent = new GUIContent("下限");
         private static readonly GUIContent MaxContent = new GUIContent("上限");
         private static readonly GUIContent ResetRangeContent = new GUIContent("0〜100", "範囲を 0〜100 に戻します。");
-        private static readonly GUIContent NoMatchContent = new GUIContent("該当するブレンドシェイプがありません。");
+        private static readonly GUIContent NoMatchContent = new GUIContent("条件に合うブレンドシェイプがありません。");
         private static readonly GUILayoutOption[] SearchOptions = { GUILayout.MinWidth(80f) };
         private static readonly GUILayoutOption[] ResetOptions = { GUILayout.ExpandWidth(false) };
 
@@ -156,7 +156,7 @@ namespace Poyo.MarshmallowJar.Editor
             _nonZeroOnly = GUILayout.Toggle(_nonZeroOnly, NonZeroContent, EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
 
-            MarshmallowJarSettings settings = MarshmallowJarSettings.instance;
+            EditorToolboxSettings settings = EditorToolboxSettings.Instance;
             DrawRangeFields(settings);
             if (PlayerSettings.legacyClampBlendShapeWeights &&
                 (settings.blendShapeSliderMin < 0f || settings.blendShapeSliderMax > 100f))
@@ -232,7 +232,7 @@ namespace Poyo.MarshmallowJar.Editor
             _serialized.ApplyModifiedProperties();
         }
 
-        internal static void DrawRangeFields(MarshmallowJarSettings settings)
+        internal static void DrawRangeFields(EditorToolboxSettings settings)
         {
             float labelWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = 36f;
@@ -247,8 +247,8 @@ namespace Poyo.MarshmallowJar.Editor
             bool changed = reset || min != settings.blendShapeSliderMin || max != settings.blendShapeSliderMax;
             if (reset)
             {
-                settings.SetBlendShapeSliderRange(MarshmallowJarSettings.DefaultBlendShapeSliderMin,
-                    MarshmallowJarSettings.DefaultBlendShapeSliderMax, true);
+                settings.SetBlendShapeSliderRange(EditorToolboxSettings.DefaultBlendShapeSliderMin,
+                    EditorToolboxSettings.DefaultBlendShapeSliderMax, true);
             }
             else if (min != settings.blendShapeSliderMin)
             {

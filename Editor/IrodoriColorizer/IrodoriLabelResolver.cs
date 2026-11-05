@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     /// <summary>見出し付きでラベルを表示する一区画。</summary>
     internal sealed class IrodoriLabelSection
@@ -134,7 +134,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
 
                     if (!ColorUtility.TryParseHtmlString(custom.colorHex, out Color color))
                     {
-                        Debug.LogWarning("Irodori Colorizer: カスタムラベルの色を解析できないため除外しました: " + custom.id);
+                        Debug.LogWarning("Irodori Colorizer: カスタムラベルの色を読み取れないため除外しました: " + custom.id);
                         continue;
                     }
 

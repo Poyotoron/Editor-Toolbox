@@ -1,10 +1,10 @@
-#if MARSHMALLOW_JAR_HAS_CAU
+#if EDITOR_TOOLBOX_HAS_CAU
 using System;
 using System.IO;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     [InitializeOnLoad]
     internal static class BatchUploadWatcher
@@ -12,11 +12,11 @@ namespace Poyo.MarshmallowJar.Editor
         private const double PollInterval = 1.0;
         // NOTE: Continuous Avatar Uploader は連続アップロードの間だけこのアセットを置き、全部終わると消すため、終わりの合図に使う。
         internal const string ProgressAssetPath = "Assets/com.anatawa12.continuous-avatar-uploader.uploader-progress.asset";
-        private const string StartKey = "net.maaaaa.marshmallow-jar.Notify.BatchStart";
-        private const string AvatarCountKey = "net.maaaaa.marshmallow-jar.Notify.BatchAvatars";
-        private const string PlatformCountKey = "net.maaaaa.marshmallow-jar.Notify.BatchPlatforms";
-        private const string ErrorCountKey = "net.maaaaa.marshmallow-jar.Notify.BatchErrors";
-        private const string NotifiedKey = "net.maaaaa.marshmallow-jar.Notify.BatchNotified";
+        private const string StartKey = "net.maaaaa.editor-toolbox.Notify.BatchStart";
+        private const string AvatarCountKey = "net.maaaaa.editor-toolbox.Notify.BatchAvatars";
+        private const string PlatformCountKey = "net.maaaaa.editor-toolbox.Notify.BatchPlatforms";
+        private const string ErrorCountKey = "net.maaaaa.editor-toolbox.Notify.BatchErrors";
+        private const string NotifiedKey = "net.maaaaa.editor-toolbox.Notify.BatchNotified";
         private static double _nextPollTime;
 
         static BatchUploadWatcher()
@@ -37,14 +37,14 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void Evaluate(bool exists)
         {
-            bool running = SessionState.GetBool(MarshmallowJarNotifier.BatchRunningSessionKey, false);
+            bool running = SessionState.GetBool(EditorToolboxNotifier.BatchRunningSessionKey, false);
             if (exists && !running)
             {
-                if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.CompletionNotifications))
+                if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.CompletionNotifications))
                 {
                     return;
                 }
-                SessionState.SetBool(MarshmallowJarNotifier.BatchRunningSessionKey, true);
+                SessionState.SetBool(EditorToolboxNotifier.BatchRunningSessionKey, true);
                 SessionState.SetFloat(StartKey, (float)EditorApplication.timeSinceStartup);
                 SessionState.SetInt(AvatarCountKey, 0);
                 SessionState.SetInt(PlatformCountKey, 0);
@@ -63,7 +63,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void OnProgressSaved()
         {
-            if (!SessionState.GetBool(MarshmallowJarNotifier.BatchRunningSessionKey, false) ||
+            if (!SessionState.GetBool(EditorToolboxNotifier.BatchRunningSessionKey, false) ||
                 SessionState.GetBool(NotifiedKey, false))
             {
                 return;
@@ -105,7 +105,7 @@ namespace Poyo.MarshmallowJar.Editor
         internal static void HandleSnapshot(int avatarIndex, int avatarCount, int currentPlatform,
             int[] targetPlatforms, int[] finishedPlatforms, int errorCount, bool continueOnError)
         {
-            if (!SessionState.GetBool(MarshmallowJarNotifier.BatchRunningSessionKey, false) ||
+            if (!SessionState.GetBool(EditorToolboxNotifier.BatchRunningSessionKey, false) ||
                 SessionState.GetBool(NotifiedKey, false))
             {
                 return;
@@ -168,7 +168,7 @@ namespace Poyo.MarshmallowJar.Editor
                 NotifyResult();
             }
             // NOTE: 途中で通知を OFF にしていても、他の通知を止め続けないよう必ず状態を消す。
-            SessionState.EraseBool(MarshmallowJarNotifier.BatchRunningSessionKey);
+            SessionState.EraseBool(EditorToolboxNotifier.BatchRunningSessionKey);
             SessionState.EraseFloat(StartKey);
             SessionState.EraseInt(AvatarCountKey);
             SessionState.EraseInt(PlatformCountKey);
@@ -182,16 +182,16 @@ namespace Poyo.MarshmallowJar.Editor
             int avatars = SessionState.GetInt(AvatarCountKey, 0);
             int platforms = SessionState.GetInt(PlatformCountKey, 0);
             int errors = SessionState.GetInt(ErrorCountKey, 0);
-            string duration = MarshmallowJarNotifier.FormatElapsed(elapsed);
+            string duration = EditorToolboxNotifier.FormatElapsed(elapsed);
             if (errors > 0)
             {
-                MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.BatchUpload, false, "連続アップロードで失敗あり",
+                EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.BatchUpload, false, "連続アップロードで失敗あり",
                     "Continuous Avatar Uploader のアップロードが終わりました。" + errors + " 件失敗しています（" + duration + "）");
             }
             else
             {
                 string detail = avatars > 0 ? "アバター " + avatars + " 体 × " + platforms + " プラットフォーム、" : string.Empty;
-                MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.BatchUpload, true, "連続アップロード完了",
+                EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.BatchUpload, true, "連続アップロード完了",
                     "Continuous Avatar Uploader のアップロードが終わりました（" + detail + duration + "）");
             }
         }

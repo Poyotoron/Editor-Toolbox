@@ -1,6 +1,6 @@
-site_name: Marshmallow Jar
-site_url: https://ghp.maaaaa.net/Marshmallow-Jar/
-repo_url: https://github.com/Poyotoron/Marshmallow-Jar
+site_name: "Poyo's Editor Toolbox"
+site_url: https://ghp.maaaaa.net/Editor-Toolbox/
+repo_url: https://github.com/Poyotoron/Editor-Toolbox
 site_dir: site
 
 theme:
@@ -48,7 +48,7 @@ extra_css:
   - stylesheets/extra.css
 
 extra:
-  marshmallow_jar_version: !ENV [MARSHMALLOW_JAR_VERSION, dev]
+  package_version: !ENV [PACKAGE_VERSION, dev]
 
 nav:
   - はじめに: index.md
@@ -63,12 +63,12 @@ nav:
       - コピーを保存: copy-asset.md
       - ブレンドシェイプのスライダー: blendshape-sliders.md
       - 完了通知: notifications.md
+      - 距離クリッピングキャンセラー: clipping-canceller.md
   - Irodori Colorizer:
       - 概要と使い方: colorizer.md
       - プリセット: colorizer-presets.md
       - 設定: colorizer-settings.md
       - 色の付き方: colorizer-behavior.md
       - 色で絞り込む: colorizer-filter.md
-      - 単体版からの移行: colorizer-migration.md
   - 困ったときは: troubleshooting.md
   - 更新履歴: changelog.md
