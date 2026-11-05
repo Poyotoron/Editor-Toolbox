@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     [InitializeOnLoad]
     internal static class InspectorHeaderButtons
@@ -20,8 +20,8 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void OnHeaderGUI(UnityEditor.Editor editor)
         {
-            bool newWindow = MarshmallowJarToggles.IsOn(MarshmallowJarToggle.InspectorNewWindowButton);
-            bool copyTo = MarshmallowJarToggles.IsOn(MarshmallowJarToggle.InspectorCopyToButton);
+            bool newWindow = EditorToolboxToggles.IsOn(EditorToolboxToggle.InspectorNewWindowButton);
+            bool copyTo = EditorToolboxToggles.IsOn(EditorToolboxToggle.InspectorCopyToButton);
             if (!newWindow && !copyTo)
             {
                 return;

@@ -1,9 +1,9 @@
-using Poyo.MarshmallowJar.Editor;
+using Poyo.EditorToolbox.Editor;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     /// <summary>表示とラベルの設定を Project Settings に公開する。</summary>
     internal static class IrodoriSettingsProvider
@@ -14,8 +14,8 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
         private const float SmallButtonWidth = 20f;
         private const float ElementGap = 2f;
 
-        private static readonly string DisabledMessage = "Irodori Colorizer は OFF です。Marshmallow Jar のページで ON にできます。";
-        private static readonly GUIContent OpenSettingsContent = new GUIContent("Marshmallow Jar の設定を開く");
+        private static readonly string DisabledMessage = "Irodori Colorizer は OFF です。Poyo's Editor Toolbox のページで ON にできます。";
+        private static readonly GUIContent OpenSettingsContent = new GUIContent("Poyo's Editor Toolbox の設定を開く");
         private static readonly GUIContent PresetsHeading = new GUIContent("プリセット");
         private static readonly GUIContent LabelListHeading = new GUIContent("ラベル一覧");
         private static readonly GUIContent CustomHeading = new GUIContent("カスタム");
@@ -23,7 +23,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
         private static readonly GUIContent HiddenContent = new GUIContent("◎", "このラベルを再表示する");
         private static readonly GUIContent ResetContent = new GUIContent("↺", "既定値に戻す");
         private static readonly GUIContent DeleteContent = new GUIContent("×", "このラベルを削除する");
-        private static readonly GUIContent ResetAllContent = new GUIContent("すべてのオーバーライドをリセット");
+        private static readonly GUIContent ResetAllContent = new GUIContent("すべての上書きをリセット");
         private static readonly GUIContent AddContent = new GUIContent("追加");
         private static readonly Color FallbackCustomColor = BuildFallbackCustomColor();
         private static readonly GUIContent[] PresetContents = BuildPresetContents();
@@ -73,13 +73,13 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
             IrodoriSettings settings = IrodoriSettings.Instance;
             bool changed = false;
 
-            bool enabled = MarshmallowJarToggles.IsOn(MarshmallowJarToggle.IrodoriColorizer);
+            bool enabled = EditorToolboxToggles.IsOn(EditorToolboxToggle.IrodoriColorizer);
             if (!enabled)
             {
                 EditorGUILayout.HelpBox(DisabledMessage, MessageType.Info);
                 if (GUILayout.Button(OpenSettingsContent))
                 {
-                    SettingsService.OpenProjectSettings(MarshmallowJarInfo.SettingsPath);
+                    SettingsService.OpenProjectSettings(EditorToolboxInfo.SettingsPath);
                 }
             }
             EditorGUI.BeginDisabledGroup(!enabled);
@@ -196,7 +196,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
             using (new EditorGUI.DisabledScope(overrideCount == 0))
             {
                 if (GUILayout.Button(ResetAllContent) && EditorUtility.DisplayDialog(
-                        "オーバーライドのリセット",
+                        "上書きのリセット",
                         "内蔵ラベルの色・名前・非表示設定をすべて既定値に戻します。",
                         "リセット",
                         "キャンセル"))
@@ -316,7 +316,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
 
             if (GUI.Button(deleteRect, DeleteContent) && EditorUtility.DisplayDialog(
                     "ラベルの削除",
-                    "このラベルを削除します。割り当ては削除されませんが、どのラベルにも解決されなくなります。",
+                    "このラベルを削除します。ラベル ID の割り当ては残りますが、対応するラベルがなくなります。",
                     "削除",
                     "キャンセル"))
             {
@@ -348,7 +348,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
 
             if (!ColorUtility.TryParseHtmlString(input, out Color color))
             {
-                Debug.LogWarning("Irodori Colorizer: Hex カラーコードを解析できませんでした。");
+                Debug.LogWarning("Irodori Colorizer: 16進数のカラーコードを読み取れませんでした。");
                 return;
             }
 
@@ -424,9 +424,9 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
             _unknownAssignmentCount = 0;
             CountUnavailableAssignments(settings.projectAssignments, settings, customIds);
             CountUnavailableAssignments(settings.sceneAssignments, settings, customIds);
-            _staleAssignmentMessage = "無効なプリセットに紐づく割り当てが " + _staleAssignmentCount +
+            _staleAssignmentMessage = "無効なプリセットのラベルを付けた項目が " + _staleAssignmentCount +
                 " 件あります。プリセットを有効にすると復元されます。";
-            _unknownAssignmentMessage = "解決できないラベル ID の割り当てが " + _unknownAssignmentCount + " 件あります。";
+            _unknownAssignmentMessage = "対応するラベルが見つからない ID の割り当てが " + _unknownAssignmentCount + " 件あります。";
         }
 
         private static void CountUnavailableAssignments(

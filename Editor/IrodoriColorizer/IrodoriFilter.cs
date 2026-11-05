@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     internal static class IrodoriFilter
     {
-        private const string SessionKey = "MarshmallowJar.IrodoriColorizer.Filter";
+        private const string SessionKey = "EditorToolbox.IrodoriColorizer.Filter";
         private static readonly HashSet<string> SelectedLabelIds = new HashSet<string>(StringComparer.Ordinal);
         private static bool _loaded;
         private static HashSet<string> _visibleGuids;

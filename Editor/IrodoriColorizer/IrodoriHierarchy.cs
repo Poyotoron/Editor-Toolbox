@@ -1,11 +1,11 @@
-using Poyo.MarshmallowJar.Editor;
+using Poyo.EditorToolbox.Editor;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
+namespace Poyo.EditorToolbox.IrodoriColorizer.Editor
 {
     /// <summary>Hierarchy 固有の GlobalObjectId キャッシュと描画フック。</summary>
     [InitializeOnLoad]
@@ -58,7 +58,7 @@ namespace Poyo.MarshmallowJar.IrodoriColorizer.Editor
         {
             IrodoriDrawer.CaptureContextClick(selectionRect);
 
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.IrodoriColorizer))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.IrodoriColorizer))
             {
                 return;
             }

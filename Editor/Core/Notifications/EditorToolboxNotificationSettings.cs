@@ -1,60 +1,60 @@
 using System;
 using UnityEngine;
-using static Poyo.MarshmallowJar.Editor.MarshmallowJarToggleGUI;
+using static Poyo.EditorToolbox.Editor.EditorToolboxToggleGUI;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
-    internal static class MarshmallowJarNotificationSettings
+    internal static class EditorToolboxNotificationSettings
     {
-        internal static int MinSeconds => MarshmallowJarUserSettings.instance.overrideNotifyMinSeconds ?
-            MarshmallowJarUserSettings.instance.notifyMinSeconds : MarshmallowJarGlobalSettings.Instance.notifyMinSeconds;
-        internal static string SuccessSoundPath => MarshmallowJarUserSettings.instance.overrideSuccessSoundPath ?
-            MarshmallowJarUserSettings.instance.successSoundPath : MarshmallowJarGlobalSettings.Instance.successSoundPath;
-        internal static string FailureSoundPath => MarshmallowJarUserSettings.instance.overrideFailureSoundPath ?
-            MarshmallowJarUserSettings.instance.failureSoundPath : MarshmallowJarGlobalSettings.Instance.failureSoundPath;
-        internal static string WebhookUrl => MarshmallowJarUserSettings.instance.overrideWebhookUrl ?
-            MarshmallowJarUserSettings.instance.webhookUrl : MarshmallowJarGlobalSettings.Instance.webhookUrl;
-        internal static string WebhookTemplate => MarshmallowJarUserSettings.instance.overrideWebhookTemplate ?
-            MarshmallowJarUserSettings.instance.webhookTemplate : MarshmallowJarGlobalSettings.Instance.webhookTemplate;
+        internal static int MinSeconds => EditorToolboxUserSettings.Instance.overrideNotifyMinSeconds ?
+            EditorToolboxUserSettings.Instance.notifyMinSeconds : EditorToolboxGlobalSettings.Instance.notifyMinSeconds;
+        internal static string SuccessSoundPath => EditorToolboxUserSettings.Instance.overrideSuccessSoundPath ?
+            EditorToolboxUserSettings.Instance.successSoundPath : EditorToolboxGlobalSettings.Instance.successSoundPath;
+        internal static string FailureSoundPath => EditorToolboxUserSettings.Instance.overrideFailureSoundPath ?
+            EditorToolboxUserSettings.Instance.failureSoundPath : EditorToolboxGlobalSettings.Instance.failureSoundPath;
+        internal static string WebhookUrl => EditorToolboxUserSettings.Instance.overrideWebhookUrl ?
+            EditorToolboxUserSettings.Instance.webhookUrl : EditorToolboxGlobalSettings.Instance.webhookUrl;
+        internal static string WebhookTemplate => EditorToolboxUserSettings.Instance.overrideWebhookTemplate ?
+            EditorToolboxUserSettings.Instance.webhookTemplate : EditorToolboxGlobalSettings.Instance.webhookTemplate;
 
-        internal static bool HasOverride(MarshmallowJarNotificationValue value)
+        internal static bool HasOverride(EditorToolboxNotificationValue value)
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             switch (value)
             {
-                case MarshmallowJarNotificationValue.MinSeconds:
+                case EditorToolboxNotificationValue.MinSeconds:
                     return settings.overrideNotifyMinSeconds;
-                case MarshmallowJarNotificationValue.SuccessSound:
+                case EditorToolboxNotificationValue.SuccessSound:
                     return settings.overrideSuccessSoundPath;
-                case MarshmallowJarNotificationValue.FailureSound:
+                case EditorToolboxNotificationValue.FailureSound:
                     return settings.overrideFailureSoundPath;
-                case MarshmallowJarNotificationValue.WebhookUrl:
+                case EditorToolboxNotificationValue.WebhookUrl:
                     return settings.overrideWebhookUrl;
-                case MarshmallowJarNotificationValue.WebhookTemplate:
+                case EditorToolboxNotificationValue.WebhookTemplate:
                     return settings.overrideWebhookTemplate;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value));
             }
         }
 
-        internal static void ClearOverride(MarshmallowJarNotificationValue value)
+        internal static void ClearOverride(EditorToolboxNotificationValue value)
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             switch (value)
             {
-                case MarshmallowJarNotificationValue.MinSeconds:
+                case EditorToolboxNotificationValue.MinSeconds:
                     settings.overrideNotifyMinSeconds = false;
                     break;
-                case MarshmallowJarNotificationValue.SuccessSound:
+                case EditorToolboxNotificationValue.SuccessSound:
                     settings.overrideSuccessSoundPath = false;
                     break;
-                case MarshmallowJarNotificationValue.FailureSound:
+                case EditorToolboxNotificationValue.FailureSound:
                     settings.overrideFailureSoundPath = false;
                     break;
-                case MarshmallowJarNotificationValue.WebhookUrl:
+                case EditorToolboxNotificationValue.WebhookUrl:
                     settings.overrideWebhookUrl = false;
                     break;
-                case MarshmallowJarNotificationValue.WebhookTemplate:
+                case EditorToolboxNotificationValue.WebhookTemplate:
                     settings.overrideWebhookTemplate = false;
                     break;
                 default:
@@ -65,34 +65,34 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static bool HasAnyOverride()
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             return settings.overrideNotifyMinSeconds || settings.overrideSuccessSoundPath || settings.overrideFailureSoundPath ||
                 settings.overrideWebhookUrl || settings.overrideWebhookTemplate;
         }
 
-        internal static OverrideState GetOverrideState(MarshmallowJarNotificationValue value)
+        internal static OverrideState GetOverrideState(EditorToolboxNotificationValue value)
         {
             if (!HasOverride(value))
             {
                 return OverrideState.None;
             }
-            MarshmallowJarGlobalSettings global = MarshmallowJarGlobalSettings.Instance;
+            EditorToolboxGlobalSettings global = EditorToolboxGlobalSettings.Instance;
             bool same;
             switch (value)
             {
-                case MarshmallowJarNotificationValue.MinSeconds:
+                case EditorToolboxNotificationValue.MinSeconds:
                     same = MinSeconds == global.notifyMinSeconds;
                     break;
-                case MarshmallowJarNotificationValue.SuccessSound:
+                case EditorToolboxNotificationValue.SuccessSound:
                     same = AreEqual(SuccessSoundPath, global.successSoundPath);
                     break;
-                case MarshmallowJarNotificationValue.FailureSound:
+                case EditorToolboxNotificationValue.FailureSound:
                     same = AreEqual(FailureSoundPath, global.failureSoundPath);
                     break;
-                case MarshmallowJarNotificationValue.WebhookUrl:
+                case EditorToolboxNotificationValue.WebhookUrl:
                     same = AreEqual(WebhookUrl, global.webhookUrl);
                     break;
-                case MarshmallowJarNotificationValue.WebhookTemplate:
+                case EditorToolboxNotificationValue.WebhookTemplate:
                     same = AreEqual(WebhookTemplate, global.webhookTemplate);
                     break;
                 default:
@@ -108,7 +108,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void SetMinSeconds(int seconds)
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             settings.notifyMinSeconds = Mathf.Clamp(seconds, 0, 600);
             settings.overrideNotifyMinSeconds = true;
             settings.SaveChanges();
@@ -116,7 +116,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void SetSoundPath(bool success, string path)
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             if (success)
             {
                 settings.successSoundPath = path;
@@ -132,7 +132,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void SetWebhookUrl(string url)
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             settings.webhookUrl = (url ?? string.Empty).Trim();
             settings.overrideWebhookUrl = true;
             settings.SaveChanges();
@@ -140,7 +140,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void SetWebhookTemplate(string template)
         {
-            MarshmallowJarUserSettings settings = MarshmallowJarUserSettings.instance;
+            EditorToolboxUserSettings settings = EditorToolboxUserSettings.Instance;
             settings.webhookTemplate = template;
             settings.overrideWebhookTemplate = true;
             settings.SaveChanges();

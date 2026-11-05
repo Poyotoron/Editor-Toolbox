@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Poyo.MarshmallowJar.VRChat.Editor
+namespace Poyo.EditorToolbox.VRChat.Editor
 {
     internal static class SceneViewThumbnailCapture
     {
@@ -27,7 +27,7 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
             try
             {
                 cameraObject = EditorUtility.CreateGameObjectWithHideFlags(
-                    "Marshmallow Jar Thumbnail Camera", HideFlags.HideAndDontSave, typeof(Camera));
+                    "Poyo's Editor Toolbox Thumbnail Camera", HideFlags.HideAndDontSave, typeof(Camera));
                 camera = cameraObject.GetComponent<Camera>();
                 camera.CopyFrom(view.camera);
                 // NOTE: CopyFrom は cameraType も写すため、Scene ビュー用の描画（グリッドやギズモ）に乗らないよう戻す。
@@ -44,7 +44,7 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
                 texture.Apply();
                 RenderTexture.active = previous;
 
-                string directory = Path.Combine(Path.GetTempPath(), "MarshmallowJar");
+                string directory = Path.Combine(Path.GetTempPath(), "EditorToolbox");
                 Directory.CreateDirectory(directory);
                 string path = Path.Combine(directory, Guid.NewGuid().ToString("N") + "_thumbnail.png");
                 File.WriteAllBytes(path, texture.EncodeToPNG());

@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using static Poyo.MarshmallowJar.Editor.MarshmallowJarToggleGUI;
+using static Poyo.EditorToolbox.Editor.EditorToolboxToggleGUI;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class NotificationSettingsGUI
     {
@@ -14,12 +14,12 @@ namespace Poyo.MarshmallowJar.Editor
         private const float TabWidth = 160f;
         private const string OtherItemsMessage = "かんたん編集に出ない項目も、JSON にはそのまま残ります。";
         private const string EmptyContentMessage = "メッセージ・タイトル・本文・フッターがすべて空だと、Discord は受け付けません。";
-#if MARSHMALLOW_JAR_HAS_VRCSDK_BASE
+#if EDITOR_TOOLBOX_HAS_VRCSDK_BASE
         private const bool HasVrcSdkBase = true;
 #else
         private const bool HasVrcSdkBase = false;
 #endif
-#if MARSHMALLOW_JAR_HAS_CAU
+#if EDITOR_TOOLBOX_HAS_CAU
         private const bool HasCau = true;
 #else
         private const bool HasCau = false;
@@ -51,9 +51,9 @@ namespace Poyo.MarshmallowJar.Editor
         private static readonly int[] InsertTargets = { 4, 4 };
         private static readonly string[] FieldControlNames =
         {
-            "MarshmallowJar.Webhook.Username", "MarshmallowJar.Webhook.AvatarUrl",
-            "MarshmallowJar.Webhook.Content", "MarshmallowJar.Webhook.Title",
-            "MarshmallowJar.Webhook.Description", "MarshmallowJar.Webhook.Footer",
+            "EditorToolbox.Webhook.Username", "EditorToolbox.Webhook.AvatarUrl",
+            "EditorToolbox.Webhook.Content", "EditorToolbox.Webhook.Title",
+            "EditorToolbox.Webhook.Description", "EditorToolbox.Webhook.Footer",
         };
         private static readonly GUIContent[] FieldContents =
         {
@@ -75,17 +75,17 @@ namespace Poyo.MarshmallowJar.Editor
             new GUIContent("{time}", "知らせた時刻に置き換わります。例: 2026-10-15 21:30:00"),
         };
         private static readonly GUIContent InsertDescription = new GUIContent(
-            "差し込むボタンは、最後に入力していた欄の末尾に追加します。新しく作る埋め込みの色は、成功なら緑、失敗なら赤になります。");
+            "差し込むボタンは、最後に入力した欄の末尾へ文字を追加します。新しく作る埋め込みの色は、成功なら緑、失敗なら赤になります。");
         private static readonly GUIContent ResetTemplate = new GUIContent("Discord 用に戻す");
         private static readonly GUIContent TemplateDescription = new GUIContent("{title} タイトル / {message} 本文 / {result} 成功・失敗 / {project} プロジェクト名 / {time} 時刻 / {color} 色（数値。Discord の埋め込み用）");
         private static readonly GUIContent OpenGlobal = new GUIContent("全体設定を開く");
-        private static readonly GUIContent ProjectDescription = new GUIContent("ここで変えた値は、このプロジェクトだけに効きます。イベントごとの ON / OFF は ProjectSettings に、音・Webhook・時間は UserSettings（リポジトリで共有しない場所）に保存します。");
+        private static readonly GUIContent ProjectDescription = new GUIContent("ここで変えた値は、このプロジェクトだけに適用されます。イベントごとの ON / OFF は ProjectSettings に、音・Webhook・時間は UserSettings（リポジトリで共有しない場所）に保存します。");
         private static readonly GUILayoutOption[] TemplateOptions = { GUILayout.MinHeight(140f) };
-        private static readonly MarshmallowJarNotificationEvent[] Events =
+        private static readonly EditorToolboxNotificationEvent[] Events =
         {
-            MarshmallowJarNotificationEvent.Upload, MarshmallowJarNotificationEvent.BatchUpload,
-            MarshmallowJarNotificationEvent.OutfitConversion, MarshmallowJarNotificationEvent.PlayMode,
-            MarshmallowJarNotificationEvent.Import,
+            EditorToolboxNotificationEvent.Upload, EditorToolboxNotificationEvent.BatchUpload,
+            EditorToolboxNotificationEvent.OutfitConversion, EditorToolboxNotificationEvent.PlayMode,
+            EditorToolboxNotificationEvent.Import,
         };
         private static readonly GUIContent[] EventContents =
         {
@@ -100,11 +100,11 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void DrawGlobal()
         {
-            MarshmallowJarToggleGUI.EnsureStyles();
+            EditorToolboxToggleGUI.EnsureStyles();
             EditorGUILayout.Space(10f);
             EditorGUILayout.LabelField(Heading, EditorStyles.boldLabel);
-            MarshmallowJarToggleGUI.DrawGlobalFeature(MarshmallowJarToggle.CompletionNotifications, MasterTitle, MasterDescription, true);
-            EditorGUI.BeginDisabledGroup(!MarshmallowJarToggles.GetGlobal(MarshmallowJarToggle.CompletionNotifications));
+            EditorToolboxToggleGUI.DrawGlobalFeature(EditorToolboxToggle.CompletionNotifications, MasterTitle, MasterDescription, true);
+            EditorGUI.BeginDisabledGroup(!EditorToolboxToggles.GetGlobal(EditorToolboxToggle.CompletionNotifications));
             DrawTable(false);
             DrawValues(false);
             EditorGUI.EndDisabledGroup();
@@ -112,16 +112,16 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void DrawProject()
         {
-            MarshmallowJarToggleGUI.EnsureStyles();
+            EditorToolboxToggleGUI.EnsureStyles();
             EditorGUILayout.Space(10f);
             EditorGUILayout.LabelField(Heading, EditorStyles.boldLabel);
-            EditorGUILayout.LabelField(ProjectDescription, MarshmallowJarToggleGUI.DescriptionStyle);
+            EditorGUILayout.LabelField(ProjectDescription, EditorToolboxToggleGUI.DescriptionStyle);
             if (GUILayout.Button(OpenGlobal))
             {
-                SettingsService.OpenUserPreferences(MarshmallowJarInfo.PreferencesPath);
+                SettingsService.OpenUserPreferences(EditorToolboxInfo.PreferencesPath);
             }
-            MarshmallowJarToggleGUI.DrawProjectFeature(MarshmallowJarToggle.CompletionNotifications, MasterTitle, MasterDescription, true);
-            EditorGUI.BeginDisabledGroup(!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.CompletionNotifications));
+            EditorToolboxToggleGUI.DrawProjectFeature(EditorToolboxToggle.CompletionNotifications, MasterTitle, MasterDescription, true);
+            EditorGUI.BeginDisabledGroup(!EditorToolboxToggles.IsOn(EditorToolboxToggle.CompletionNotifications));
             DrawTable(true);
             DrawValues(true);
             EditorGUI.EndDisabledGroup();
@@ -129,16 +129,16 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void DrawValues(bool project)
         {
-            MarshmallowJarGlobalSettings global = MarshmallowJarGlobalSettings.Instance;
-            OverrideState state = GetValueRects(MarshmallowJarNotificationValue.MinSeconds, out Rect fieldRect, out Rect stateRect);
+            EditorToolboxGlobalSettings global = EditorToolboxGlobalSettings.Instance;
+            OverrideState state = GetValueRects(EditorToolboxNotificationValue.MinSeconds, out Rect fieldRect, out Rect stateRect);
             EditorGUI.BeginChangeCheck();
             int minSeconds = EditorGUI.IntSlider(fieldRect, MinSecondsContent,
-                project ? MarshmallowJarNotificationSettings.MinSeconds : global.notifyMinSeconds, 0, 600);
+                project ? EditorToolboxNotificationSettings.MinSeconds : global.notifyMinSeconds, 0, 600);
             if (EditorGUI.EndChangeCheck())
             {
                 if (project)
                 {
-                    MarshmallowJarNotificationSettings.SetMinSeconds(minSeconds);
+                    EditorToolboxNotificationSettings.SetMinSeconds(minSeconds);
                 }
                 else
                 {
@@ -147,22 +147,22 @@ namespace Poyo.MarshmallowJar.Editor
                 }
                 UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
             }
-            DrawValueState(MarshmallowJarNotificationValue.MinSeconds, project, stateRect, state);
+            DrawValueState(EditorToolboxNotificationValue.MinSeconds, project, stateRect, state);
 #if UNITY_EDITOR_WIN
             DrawSoundRow(true, project);
             DrawSoundRow(false, project);
 #else
-            EditorGUILayout.LabelField(OtherOs, MarshmallowJarToggleGUI.DescriptionStyle);
+            EditorGUILayout.LabelField(OtherOs, EditorToolboxToggleGUI.DescriptionStyle);
 #endif
-            state = GetValueRects(MarshmallowJarNotificationValue.WebhookUrl, out fieldRect, out stateRect);
+            state = GetValueRects(EditorToolboxNotificationValue.WebhookUrl, out fieldRect, out stateRect);
             EditorGUI.BeginChangeCheck();
             string url = EditorGUI.PasswordField(fieldRect, UrlContent,
-                project ? MarshmallowJarNotificationSettings.WebhookUrl : global.webhookUrl);
+                project ? EditorToolboxNotificationSettings.WebhookUrl : global.webhookUrl);
             if (EditorGUI.EndChangeCheck())
             {
                 if (project)
                 {
-                    MarshmallowJarNotificationSettings.SetWebhookUrl(url);
+                    EditorToolboxNotificationSettings.SetWebhookUrl(url);
                 }
                 else
                 {
@@ -171,17 +171,17 @@ namespace Poyo.MarshmallowJar.Editor
                 }
                 UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
             }
-            DrawValueState(MarshmallowJarNotificationValue.WebhookUrl, project, stateRect, state);
-            url = project ? MarshmallowJarNotificationSettings.WebhookUrl : global.webhookUrl;
+            DrawValueState(EditorToolboxNotificationValue.WebhookUrl, project, stateRect, state);
+            url = project ? EditorToolboxNotificationSettings.WebhookUrl : global.webhookUrl;
             EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(url));
             if (GUILayout.Button(TestSend))
             {
-                WebhookSender.Send(url, project ? MarshmallowJarNotificationSettings.WebhookTemplate : global.webhookTemplate,
-                    "テスト送信", "Marshmallow Jar からのテスト通知です。", true, true);
+                WebhookSender.Send(url, project ? EditorToolboxNotificationSettings.WebhookTemplate : global.webhookTemplate,
+                    "テスト送信", "Poyo's Editor Toolbox からのテスト通知です。", true, true);
             }
             EditorGUI.EndDisabledGroup();
 
-            state = GetValueRects(MarshmallowJarNotificationValue.WebhookTemplate, out fieldRect, out stateRect);
+            state = GetValueRects(EditorToolboxNotificationValue.WebhookTemplate, out fieldRect, out stateRect);
             Rect tabRect = fieldRect;
             tabRect.xMin = tabRect.xMax - TabWidth;
             fieldRect.xMax = tabRect.xMin - 4f;
@@ -193,8 +193,8 @@ namespace Poyo.MarshmallowJar.Editor
                 SelectedTabs[page] = tab;
                 GUIUtility.keyboardControl = 0;
             }
-            DrawValueState(MarshmallowJarNotificationValue.WebhookTemplate, project, stateRect, state);
-            string template = project ? MarshmallowJarNotificationSettings.WebhookTemplate : global.webhookTemplate;
+            DrawValueState(EditorToolboxNotificationValue.WebhookTemplate, project, stateRect, state);
+            string template = project ? EditorToolboxNotificationSettings.WebhookTemplate : global.webhookTemplate;
             WebhookSimpleSnapshot snapshot = GetSnapshot(page, template);
             if (SelectedTabs[page] == 0)
             {
@@ -208,12 +208,12 @@ namespace Poyo.MarshmallowJar.Editor
                 {
                     SetWebhookTemplate(project, value);
                 }
-                EditorGUILayout.LabelField(TemplateDescription, MarshmallowJarToggleGUI.DescriptionStyle);
+                EditorGUILayout.LabelField(TemplateDescription, EditorToolboxToggleGUI.DescriptionStyle);
             }
             if (GUILayout.Button(ResetTemplate))
             {
                 GUIUtility.keyboardControl = 0;
-                SetWebhookTemplate(project, MarshmallowJarGlobalSettings.DiscordWebhookTemplate);
+                SetWebhookTemplate(project, EditorToolboxGlobalSettings.DiscordWebhookTemplate);
             }
         }
 
@@ -281,7 +281,7 @@ namespace Poyo.MarshmallowJar.Editor
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
-            EditorGUILayout.LabelField(InsertDescription, MarshmallowJarToggleGUI.DescriptionStyle);
+            EditorGUILayout.LabelField(InsertDescription, EditorToolboxToggleGUI.DescriptionStyle);
             if (snapshot.ErrorMessage == null)
             {
                 if (snapshot.HasOtherItems)
@@ -295,23 +295,23 @@ namespace Poyo.MarshmallowJar.Editor
             }
         }
 
-        private static OverrideState GetValueRects(MarshmallowJarNotificationValue value, out Rect fieldRect, out Rect stateRect)
+        private static OverrideState GetValueRects(EditorToolboxNotificationValue value, out Rect fieldRect, out Rect stateRect)
         {
             Rect row = EditorGUILayout.GetControlRect();
             stateRect = new Rect(row.xMax - StateWidth, row.y, StateWidth, row.height);
             fieldRect = new Rect(row.x, row.y, row.width - StateWidth - 4f, row.height);
-            OverrideState state = MarshmallowJarNotificationSettings.GetOverrideState(value);
+            OverrideState state = EditorToolboxNotificationSettings.GetOverrideState(value);
             DrawOverrideHighlight(row, state);
             return state;
         }
 
-        private static void DrawValueState(MarshmallowJarNotificationValue value, bool project, Rect rect, OverrideState state)
+        private static void DrawValueState(EditorToolboxNotificationValue value, bool project, Rect rect, OverrideState state)
         {
             if (project)
             {
                 if (DrawStateCell(rect, state != OverrideState.None, RevertContent))
                 {
-                    MarshmallowJarNotificationSettings.ClearOverride(value);
+                    EditorToolboxNotificationSettings.ClearOverride(value);
                     UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
                 }
             }
@@ -325,12 +325,12 @@ namespace Poyo.MarshmallowJar.Editor
         {
             if (project)
             {
-                MarshmallowJarNotificationSettings.SetWebhookTemplate(template);
+                EditorToolboxNotificationSettings.SetWebhookTemplate(template);
             }
             else
             {
-                MarshmallowJarGlobalSettings.Instance.webhookTemplate = template;
-                MarshmallowJarGlobalSettings.Instance.Save();
+                EditorToolboxGlobalSettings.Instance.webhookTemplate = template;
+                EditorToolboxGlobalSettings.Instance.Save();
             }
             UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
         }
@@ -343,22 +343,22 @@ namespace Poyo.MarshmallowJar.Editor
             GUI.Label(webhook, WebhookHeading, EditorStyles.miniLabel);
             for (int i = 0; i < Events.Length; i++)
             {
-                MarshmallowJarNotificationEvent e = Events[i];
+                EditorToolboxNotificationEvent e = Events[i];
                 Rect row = EditorGUILayout.GetControlRect();
                 SplitRow(row, out label, out sound, out webhook, out stateRect);
-                MarshmallowJarNotifier.GetToggles(e, out MarshmallowJarToggle soundToggle, out MarshmallowJarToggle webhookToggle);
+                EditorToolboxNotifier.GetToggles(e, out EditorToolboxToggle soundToggle, out EditorToolboxToggle webhookToggle);
                 OverrideState state = Combine(GetOverrideState(soundToggle), GetOverrideState(webhookToggle));
                 bool overridden = state != OverrideState.None;
                 DrawOverrideHighlight(row, state);
-                EditorGUI.BeginDisabledGroup((e == MarshmallowJarNotificationEvent.Upload && !HasVrcSdkBase) ||
-                    (e == MarshmallowJarNotificationEvent.BatchUpload && !HasCau));
+                EditorGUI.BeginDisabledGroup((e == EditorToolboxNotificationEvent.Upload && !HasVrcSdkBase) ||
+                    (e == EditorToolboxNotificationEvent.BatchUpload && !HasCau));
                 GUI.Label(label, EventContents[i], project && overridden ? EditorStyles.boldLabel : EditorStyles.label);
                 DrawCell(sound, soundToggle, project);
                 DrawCell(webhook, webhookToggle, project);
-                if (project && MarshmallowJarToggleGUI.DrawStateCell(stateRect, overridden, MarshmallowJarToggleGUI.RevertContent))
+                if (project && EditorToolboxToggleGUI.DrawStateCell(stateRect, overridden, EditorToolboxToggleGUI.RevertContent))
                 {
-                    MarshmallowJarToggles.ClearOverride(soundToggle);
-                    MarshmallowJarToggles.ClearOverride(webhookToggle);
+                    EditorToolboxToggles.ClearOverride(soundToggle);
+                    EditorToolboxToggles.ClearOverride(webhookToggle);
                     UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
                 }
                 if (!project)
@@ -371,17 +371,17 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void SplitRow(Rect row, out Rect label, out Rect sound, out Rect webhook, out Rect state)
         {
-            float stateWidth = MarshmallowJarToggleGUI.StateWidth + 4f;
+            float stateWidth = EditorToolboxToggleGUI.StateWidth + 4f;
             float right = row.xMax - stateWidth;
             label = new Rect(row.x, row.y, Mathf.Max(0, right - row.x - SoundWidth - WebhookWidth), row.height);
             sound = new Rect(right - SoundWidth - WebhookWidth, row.y, SoundWidth, row.height);
             webhook = new Rect(right - WebhookWidth, row.y, WebhookWidth, row.height);
-            state = new Rect(row.xMax - MarshmallowJarToggleGUI.StateWidth, row.y, MarshmallowJarToggleGUI.StateWidth, row.height);
+            state = new Rect(row.xMax - EditorToolboxToggleGUI.StateWidth, row.y, EditorToolboxToggleGUI.StateWidth, row.height);
         }
 
-        private static void DrawCell(Rect rect, MarshmallowJarToggle toggle, bool project)
+        private static void DrawCell(Rect rect, EditorToolboxToggle toggle, bool project)
         {
-            bool current = project ? MarshmallowJarToggles.IsOn(toggle) : MarshmallowJarToggles.GetGlobal(toggle);
+            bool current = project ? EditorToolboxToggles.IsOn(toggle) : EditorToolboxToggles.GetGlobal(toggle);
             bool value = EditorGUI.Toggle(rect, current);
             if (value == current)
             {
@@ -389,11 +389,11 @@ namespace Poyo.MarshmallowJar.Editor
             }
             if (project)
             {
-                MarshmallowJarToggles.SetOverride(toggle, value);
+                EditorToolboxToggles.SetOverride(toggle, value);
             }
             else
             {
-                MarshmallowJarToggles.SetGlobal(toggle, value);
+                EditorToolboxToggles.SetGlobal(toggle, value);
             }
             UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
         }
@@ -412,11 +412,11 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void DrawSoundRow(bool success, bool project)
         {
-            MarshmallowJarGlobalSettings settings = MarshmallowJarGlobalSettings.Instance;
+            EditorToolboxGlobalSettings settings = EditorToolboxGlobalSettings.Instance;
             string path = project ?
-                (success ? MarshmallowJarNotificationSettings.SuccessSoundPath : MarshmallowJarNotificationSettings.FailureSoundPath) :
+                (success ? EditorToolboxNotificationSettings.SuccessSoundPath : EditorToolboxNotificationSettings.FailureSoundPath) :
                 (success ? settings.successSoundPath : settings.failureSoundPath);
-            MarshmallowJarNotificationValue value = success ? MarshmallowJarNotificationValue.SuccessSound : MarshmallowJarNotificationValue.FailureSound;
+            EditorToolboxNotificationValue value = success ? EditorToolboxNotificationValue.SuccessSound : EditorToolboxNotificationValue.FailureSound;
             OverrideState state = GetValueRects(value, out Rect row, out Rect stateRect);
             Rect titleRect = new Rect(row.x, row.y, EditorGUIUtility.labelWidth, row.height);
             Rect fileRect = new Rect(titleRect.xMax, row.y, Mathf.Max(0, row.width - titleRect.width - ButtonWidth * 3f), row.height);
@@ -455,11 +455,11 @@ namespace Poyo.MarshmallowJar.Editor
         {
             if (project)
             {
-                MarshmallowJarNotificationSettings.SetSoundPath(success, path);
+                EditorToolboxNotificationSettings.SetSoundPath(success, path);
                 UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
                 return;
             }
-            MarshmallowJarGlobalSettings settings = MarshmallowJarGlobalSettings.Instance;
+            EditorToolboxGlobalSettings settings = EditorToolboxGlobalSettings.Instance;
             if (success)
             {
                 settings.successSoundPath = path;

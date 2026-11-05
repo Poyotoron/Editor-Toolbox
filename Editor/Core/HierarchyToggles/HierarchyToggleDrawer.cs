@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     [InitializeOnLoad]
     internal static class HierarchyToggleDrawer
@@ -31,14 +31,14 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void OnHierarchyItem(int instanceID, Rect selectionRect)
         {
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.HierarchyToggles))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.HierarchyToggles))
             {
                 return;
             }
 
-            MarshmallowJarSettings settings = MarshmallowJarSettings.instance;
+            EditorToolboxSettings settings = EditorToolboxSettings.Instance;
             float rightOffset = Mathf.Clamp(settings.hierarchyToggleRightOffset, 0f,
-                MarshmallowJarSettings.MaxHierarchyToggleRightOffset);
+                EditorToolboxSettings.MaxHierarchyToggleRightOffset);
             GameObject go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
             if (go == null)
             {

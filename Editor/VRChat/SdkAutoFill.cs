@@ -1,5 +1,5 @@
 using System;
-using Poyo.MarshmallowJar.Editor;
+using Poyo.EditorToolbox.Editor;
 using UnityEditor;
 using UnityEngine;
 using VRC.Core;
@@ -7,7 +7,7 @@ using VRC.SDK3A.Editor;
 using VRC.SDKBase.Editor;
 using VRC.SDKBase.Editor.Api;
 
-namespace Poyo.MarshmallowJar.VRChat.Editor
+namespace Poyo.EditorToolbox.VRChat.Editor
 {
     [InitializeOnLoad]
     internal static class SdkAutoFill
@@ -35,7 +35,7 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
             }
 
             _nextPollTime = now + PollInterval;
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.VrcSdkAutoFill) || VRCSdkControlPanel.window == null)
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.VrcSdkAutoFill) || VRCSdkControlPanel.window == null)
             {
                 Unsubscribe();
                 return;
@@ -87,7 +87,7 @@ namespace Poyo.MarshmallowJar.VRChat.Editor
 
         private static void TryFill(GameObject avatar)
         {
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.VrcSdkAutoFill) || avatar == null || _builder == null ||
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.VrcSdkAutoFill) || avatar == null || _builder == null ||
                 _builder.BuildState != SdkBuildState.Idle || _builder.UploadState != SdkUploadState.Idle ||
                 EditorApplication.isPlayingOrWillChangePlaymode || _builder.SelectedAvatar != avatar ||
                 !avatar.TryGetComponent(out PipelineManager pipeline) || !string.IsNullOrWhiteSpace(pipeline.blueprintId))

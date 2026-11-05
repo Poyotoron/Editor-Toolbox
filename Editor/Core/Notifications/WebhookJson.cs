@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class WebhookJson
     {

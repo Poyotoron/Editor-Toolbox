@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal sealed class SceneSetupPromptWindow : EditorWindow
     {
@@ -24,7 +24,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static void Open(string sceneName)
         {
-            SceneSetupPromptWindow window = GetWindow<SceneSetupPromptWindow>(true, MarshmallowJarInfo.DisplayName, true);
+            SceneSetupPromptWindow window = GetWindow<SceneSetupPromptWindow>(true, EditorToolboxInfo.DisplayName, true);
             window.minSize = window.maxSize = new Vector2(440f, 250f);
             window._message = "シーン「" + sceneName + "」" + MessageBody;
             window.Repaint();
@@ -32,7 +32,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         private void OnGUI()
         {
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.SceneSetup))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.SceneSetup))
             {
                 // NOTE: 確認中に機能を無効にした場合は、辞退や無視として記録せず確認だけを取り下げる。
                 SceneSetupWatcher.ClearPending();

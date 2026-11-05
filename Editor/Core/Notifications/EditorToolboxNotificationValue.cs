@@ -1,6 +1,6 @@
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
-    internal enum MarshmallowJarNotificationValue
+    internal enum EditorToolboxNotificationValue
     {
         MinSeconds = 0,
         SuccessSound = 1,

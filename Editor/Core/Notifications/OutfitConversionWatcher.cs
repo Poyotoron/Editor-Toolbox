@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal sealed class OutfitConversionWatcher : AssetPostprocessor
     {
@@ -13,7 +13,7 @@ namespace Poyo.MarshmallowJar.Editor
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
-            if (!MarshmallowJarToggles.IsOn(MarshmallowJarToggle.CompletionNotifications))
+            if (!EditorToolboxToggles.IsOn(EditorToolboxToggle.CompletionNotifications))
             {
                 return;
             }
@@ -40,7 +40,7 @@ namespace Poyo.MarshmallowJar.Editor
             if (names != null && names.Count > 0)
             {
                 // NOTE: 変換直後のモーダルダイアログでメインスレッドが止まるため、後回しにせずその場で知らせる。
-                MarshmallowJarNotifier.Notify(MarshmallowJarNotificationEvent.OutfitConversion, true, "衣装の変換完了",
+                EditorToolboxNotifier.Notify(EditorToolboxNotificationEvent.OutfitConversion, true, "衣装の変換完了",
                     "もちふぃった～ の変換が終わりました: " + string.Join("、", names));
             }
         }

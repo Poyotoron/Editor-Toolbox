@@ -1,4 +1,4 @@
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal sealed class WebhookSimpleSnapshot
     {

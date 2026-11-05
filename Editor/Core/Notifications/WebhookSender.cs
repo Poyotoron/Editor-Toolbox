@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     internal static class WebhookSender
     {
@@ -33,7 +33,7 @@ namespace Poyo.MarshmallowJar.Editor
             {
                 request?.Dispose();
                 // NOTE: URL は知っていれば誰でも投稿できる秘密情報のため、送信開始時の例外本文は表示しない。
-                Debug.LogWarning(MarshmallowJarInfo.LogPrefix + "Webhook の送信を開始できませんでした。URL と本文の設定を確認してください。");
+                Debug.LogWarning(EditorToolboxInfo.LogPrefix + "Webhook の送信を開始できませんでした。URL と本文の設定を確認してください。");
             }
         }
 
@@ -49,11 +49,11 @@ namespace Poyo.MarshmallowJar.Editor
                     {
                         error = error.Replace(request.url, "（送信先）");
                     }
-                    Debug.LogWarning(MarshmallowJarInfo.LogPrefix + "Webhook の送信に失敗しました（" + request.responseCode + "）: " + error);
+                    Debug.LogWarning(EditorToolboxInfo.LogPrefix + "Webhook の送信に失敗しました（" + request.responseCode + "）: " + error);
                 }
                 else if (logSuccess)
                 {
-                    Debug.Log(MarshmallowJarInfo.LogPrefix + "Webhook にテスト通知を送りました。");
+                    Debug.Log(EditorToolboxInfo.LogPrefix + "Webhook にテスト通知を送りました。");
                 }
             }
             finally

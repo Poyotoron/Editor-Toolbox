@@ -1,7 +1,7 @@
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     // NOTE: 名前は保存キー、数値はキャッシュの添字になるため、既存の項目を変更しない。
-    public enum MarshmallowJarToggle
+    public enum EditorToolboxToggle
     {
         HierarchyToggles = 0,
         StripVariantSuffix = 1,

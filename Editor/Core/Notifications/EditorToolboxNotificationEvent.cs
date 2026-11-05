@@ -1,6 +1,6 @@
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
-    public enum MarshmallowJarNotificationEvent
+    public enum EditorToolboxNotificationEvent
     {
         Upload = 0,
         BatchUpload = 1,

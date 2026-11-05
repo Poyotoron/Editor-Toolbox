@@ -1,9 +1,9 @@
 using System;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
     [Serializable]
-    public sealed class MarshmallowJarToggleValue
+    public sealed class EditorToolboxToggleValue
     {
         public string key;
         public bool value;

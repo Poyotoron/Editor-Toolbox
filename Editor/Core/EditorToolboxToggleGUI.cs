@@ -2,9 +2,9 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Poyo.MarshmallowJar.Editor
+namespace Poyo.EditorToolbox.Editor
 {
-    internal static class MarshmallowJarToggleGUI
+    internal static class EditorToolboxToggleGUI
     {
         internal enum OverrideState
         {
@@ -13,7 +13,7 @@ namespace Poyo.MarshmallowJar.Editor
             Different = 2,
         }
 
-#if MARSHMALLOW_JAR_HAS_VRCSDK
+#if EDITOR_TOOLBOX_HAS_VRCSDK
         internal const bool HasVrcSdk = true;
 #else
         internal const bool HasVrcSdk = false;
@@ -40,7 +40,7 @@ namespace Poyo.MarshmallowJar.Editor
         internal static readonly GUIContent InspectorDescription =
             new GUIContent("選んでいるオブジェクトを固定した Inspector を別ウィンドウで開きます。ほかを選んでも表示は切り替わりません。");
         internal static readonly GUIContent ColorizerDescription =
-            new GUIContent("Project / Hierarchy の行に色付きラベルを付けます。右クリックメニューの「Marshmallow Jar」から使えます。");
+            new GUIContent("Project / Hierarchy の行に色付きラベルを付けます。右クリックメニューの「Poyo's Editor Toolbox」から使えます。");
         internal static readonly GUIContent CopyToTitle = new GUIContent("Inspector に「コピーを保存…」ボタンを出す");
         internal static readonly GUIContent CopyToDescription = new GUIContent(
             "アセットの Inspector に、保存先と名前を選んでコピーを作るボタンを出します。マテリアルなどを別のフォルダに複製するときに使います。");
@@ -86,7 +86,7 @@ namespace Poyo.MarshmallowJar.Editor
             MismatchLabelStyle.normal.textColor = MismatchBarColor;
         }
 
-        internal static void DrawGlobalFeature(MarshmallowJarToggle toggle, GUIContent title, GUIContent description, bool enabled)
+        internal static void DrawGlobalFeature(EditorToolboxToggle toggle, GUIContent title, GUIContent description, bool enabled)
         {
             EnsureStyles();
             Rect row = EditorGUILayout.GetControlRect();
@@ -95,19 +95,19 @@ namespace Poyo.MarshmallowJar.Editor
             OverrideState state = GetOverrideState(toggle);
             DrawOverrideHighlight(row, state);
             EditorGUI.BeginDisabledGroup(!enabled);
-            bool current = MarshmallowJarToggles.GetGlobal(toggle);
+            bool current = EditorToolboxToggles.GetGlobal(toggle);
             bool value = EditorGUI.ToggleLeft(toggleRect, title, current, EditorStyles.label);
             if (value != current)
             {
-                MarshmallowJarToggles.SetGlobal(toggle, value);
+                EditorToolboxToggles.SetGlobal(toggle, value);
                 UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
             }
-            DrawProjectStateLabel(stateRect, state, MarshmallowJarToggles.IsOn(toggle) ? ProjectOnContent : ProjectOffContent);
+            DrawProjectStateLabel(stateRect, state, EditorToolboxToggles.IsOn(toggle) ? ProjectOnContent : ProjectOffContent);
             DrawDescription(description);
             EditorGUI.EndDisabledGroup();
         }
 
-        internal static void DrawProjectFeature(MarshmallowJarToggle toggle, GUIContent title, GUIContent description, bool enabled)
+        internal static void DrawProjectFeature(EditorToolboxToggle toggle, GUIContent title, GUIContent description, bool enabled)
         {
             EnsureStyles();
             Rect row = EditorGUILayout.GetControlRect();
@@ -117,18 +117,18 @@ namespace Poyo.MarshmallowJar.Editor
             bool overridden = state != OverrideState.None;
             DrawOverrideHighlight(row, state);
             EditorGUI.BeginDisabledGroup(!enabled);
-            bool current = MarshmallowJarToggles.IsOn(toggle);
+            bool current = EditorToolboxToggles.IsOn(toggle);
             bool value = EditorGUI.ToggleLeft(toggleRect, title, current,
                 overridden ? EditorStyles.boldLabel : EditorStyles.label);
             if (value != current)
             {
-                MarshmallowJarToggles.SetOverride(toggle, value);
+                EditorToolboxToggles.SetOverride(toggle, value);
                 UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
             }
-            GUIContent revert = MarshmallowJarToggles.GetGlobal(toggle) ? RevertToOnContent : RevertToOffContent;
+            GUIContent revert = EditorToolboxToggles.GetGlobal(toggle) ? RevertToOnContent : RevertToOffContent;
             if (DrawStateCell(stateRect, overridden, revert))
             {
-                MarshmallowJarToggles.ClearOverride(toggle);
+                EditorToolboxToggles.ClearOverride(toggle);
                 UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
             }
             DrawDescription(description);
@@ -143,13 +143,13 @@ namespace Poyo.MarshmallowJar.Editor
             EditorGUILayout.Space(4f);
         }
 
-        internal static OverrideState GetOverrideState(MarshmallowJarToggle toggle)
+        internal static OverrideState GetOverrideState(EditorToolboxToggle toggle)
         {
-            if (!MarshmallowJarToggles.HasOverride(toggle))
+            if (!EditorToolboxToggles.HasOverride(toggle))
             {
                 return OverrideState.None;
             }
-            return MarshmallowJarToggles.IsOn(toggle) == MarshmallowJarToggles.GetGlobal(toggle)
+            return EditorToolboxToggles.IsOn(toggle) == EditorToolboxToggles.GetGlobal(toggle)
                 ? OverrideState.Same : OverrideState.Different;
         }
 
@@ -160,14 +160,14 @@ namespace Poyo.MarshmallowJar.Editor
 
         internal static bool HasAnyOverride()
         {
-            foreach (MarshmallowJarToggle toggle in MarshmallowJarToggles.All)
+            foreach (EditorToolboxToggle toggle in EditorToolboxToggles.All)
             {
-                if (MarshmallowJarToggles.HasOverride(toggle))
+                if (EditorToolboxToggles.HasOverride(toggle))
                 {
                     return true;
                 }
             }
-            return MarshmallowJarNotificationSettings.HasAnyOverride();
+            return EditorToolboxNotificationSettings.HasAnyOverride();
         }
 
         internal static void DrawOverrideHighlight(Rect row, OverrideState state)
