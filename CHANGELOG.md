@@ -2,6 +2,21 @@
 
 このプロジェクトの変更履歴。バージョニングは [Semantic Versioning](https://semver.org/lang/ja/) に従う。
 
+## [0.3.0] - 2026-11-05
+
+名前を「Marshmallow Jar」から「Poyo's Editor Toolbox」に変えた。lilToon と Poiyomi の距離クリッピングキャンセラーをまとめて切り替えるページを追加した。
+
+### Added
+- **距離クリッピングキャンセラー**: `Project Settings > Poyo's Editor Toolbox > Clipping Canceller` で、lilToon（プロジェクトのすべてのマテリアルで共通の設定）と Poiyomi（`Assets` にあるマテリアルをまとめて）の距離クリッピングキャンセラーを切り替えられる。ほかの機能と違って ON / OFF の項目は無く、このページで切り替えたときだけ書き換える。
+  - lilToon は 2.0.0 以上が要る。lilToon の「シェーダー設定」にある距離クリッピングキャンセラーと同じ設定を切り替え、シェーダーを作り直す。
+  - Poiyomi は除外リストに入れたマテリアルを変えず、行ごとに切り替えられる。親の値に従う Variant は変えない。ロック中のマテリアルは、ThryEditor 2.74.3 以上が入っていればロックを解除してから変える。Undo では戻せない。
+
+### Changed
+- **名前を変えた。** 表示名は「Poyo's Editor Toolbox」、パッケージ ID は `net.maaaaa.editor-toolbox`、メニューは `Tools > Poyo's Editor Toolbox`、設定のページは Preferences と Project Settings の `Poyo's Editor Toolbox` になった。リポジトリは [Poyotoron/Editor-Toolbox](https://github.com/Poyotoron/Editor-Toolbox)、ドキュメントは [https://ghp.maaaaa.net/Editor-Toolbox/](https://ghp.maaaaa.net/Editor-Toolbox/) に移った。
+- **旧版は自動で外れる。** `package.json` の `legacyPackages` に旧 ID を書いたので、VCC / ALCOM で新版を入れると旧版が削除される。旧版と同じプロジェクトに入っている間は、二重に動かないよう機能を止め、設定のページと Console で旧版の削除を案内する。
+- **設定を引き継ぐ。** `ProjectSettings/MarshmallowJar.asset`・`ProjectSettings/MarshmallowJar.IrodoriColorizer.asset`・`UserSettings/MarshmallowJar.asset` を `EditorToolbox` の名前の新しいファイルに、全体設定を新しいキーに写す。旧いファイルとキーは残す（ほかのプロジェクトで旧版を使っているかもしれないため）。Webhook で送る内容を変えていなければ、送信者名の既定は「Poyo's Editor Toolbox」になる。
+- 画面の文言をいくつか直した（「オーバーライド」を「上書き」に、など）。
+
 ## [0.2.1] - 2026-10-15
 
 Continuous Avatar Uploader の連続アップロードの通知が、完了ダイアログを閉じるまで届かなかった不具合を直した。
